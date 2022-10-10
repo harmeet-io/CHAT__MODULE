@@ -1,0 +1,17 @@
+import io form 'socket.io-client';
+
+
+const ENTPOINT = "http://localhost:5000";
+
+var socket, selectedChatCompare; 
+
+const [socketConnected, setSocketConnected] = useState(false);
+
+
+useEffect( ()=> {
+	socket = io(ENDPOINT);
+	socket.emit("setup", user);
+	socket.on('connection', () => setConnected(true)); 
+}
+	
+ )
