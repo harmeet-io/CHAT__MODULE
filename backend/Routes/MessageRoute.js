@@ -8,9 +8,8 @@ const MessageController = require('../Controllers/MessageController');
 
 
 
-
-Router.route('/api/:id').patch(MessageController.sendMessage);
-// Router.route('/:chatId').get(MessageController.allMessages);
+Router.route('/api/send-message/:id').post(MessageController.sendMessage);
+Router.route('/api/end-chat/:id').post(MessageController.endChat);
 
 
 

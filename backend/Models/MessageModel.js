@@ -1,37 +1,35 @@
-const mongoose = require("mongoose");
+const Mongoose = require('mongoose');
 
-const MessageSchema = new mongoose.Schema(
-  {
-    user_id: {
-      type: String,
-    },
+const MessageSchema = new Mongoose.Schema({ 
 
-    user_message: [
-      {
-        message: {
-          type: String,
-        },
-        time: {
-          type: String,
-        },
-      },
-    ],
-
-    admin_message: [
-      {
-        message: {
-          type: String,
-        },
-        time: {
-          type: String,
-        },
-      },
-    ],
+  user_id : {
+    type : String,
+    required : false
   },
 
-  {
-    timestamps: true,
-  }
-);
+  messages : [
+    {
+      isAdmin : {
+        type : Boolean, 
+      },
+      content : {
+        type : String,
+        required : false,
+      },
+      time : {
+        type : String, 
+        required : false,
+      },
+      date : {
+        type : String,
+        required : false,
+      },
+      isActive : {
+        type : Boolean,
+        default : 1
+      }
+    }
+  ]
+})
 
-module.exports = new mongoose.model("Message", MessageSchema);
+module.exports = new Mongoose.model('Message', MessageSchema);
