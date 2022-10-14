@@ -68,7 +68,35 @@ const endChat = async (req, res) => {
   }
 };
 
+
+const getUserChat = async(req, res) => {
+  try {
+    let count;
+
+    const chat = await Messages.findOne({user_id : req.params.id});
+    
+    (chat.messages).forEach(message => {
+      if(isActive == 0){
+        count ++;
+      }
+    });
+
+
+
+
+
+  } catch (error) {
+        res.status(500).json({
+          Status: "Error",
+          Message: "Internal Server Error",
+          Error: error,
+        });
+    
+  }
+}
+
 module.exports = {
   sendMessage,
   endChat,
+  getUserChat,
 };
