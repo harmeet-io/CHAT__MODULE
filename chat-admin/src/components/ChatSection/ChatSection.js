@@ -1,63 +1,49 @@
 import React, { useEffect, useState } from "react";
-import ReactScrollToBottom from "react-scroll-to-bottom";
-import "../Chatbox/Chatbox.css";
+import "../ChatSection/ChatSection.css";
 import axios from "axios";
-import Cookies from "js-cookie";
 
-const ChatBox = () => {
+const ChatSection = () => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
 
-  useEffect(() => {
-    fetchChat();
-  }, []);
-
-  const fetchChat = async () => {
-    const url = `http://localhost:8000/api/get-user-chat/634b235999c6fb9cd2ebc41f`;
-
+  const fetchChat = () => {
+    const url = `http://127.0.0.1:8000/api/get-user-chat/634b235999c6fb9cd2ebc41f`;
     axios
       .get(url)
       .then((response) => {
         setChat(response.data.Chat.messages);
       })
       .catch((error) => {
-        console.log(error, "Line 25 Chatbox.js");
+        console.log(error, "Error line 16 ChatSection.js");
       });
   };
 
-  const send = async () => {
-    // const id = Cookies.user_id;
-    // const url = `http://localhost:8000/api/send-message/${id}`;
-    const url = `http://localhost:8000/api/send-message/634b235999c6fb9cd2ebc41f`;
-
-    // const formData = new FormData();
-
-    // formData.append('isAdmin', '0' );
-    // formData.append('content', message);
-
+  const sendMessage = () => {
+    const url = `http://127.0.0.1:8000/api/send-message/634b235999c6fb9cd2ebc41f`;
     const data = {
-      isAdmin: "0",
+      isAdmin: "1",
       content: message,
     };
-    setMessage("");
-
     axios
       .post(url, data)
       .then((response) => {
-        console.log(response, "response");
+        console.log(response);
       })
       .catch((error) => {
-        console.log(error, "Error");
+        console.log(error, "line 19 ChatSection.js");
       });
+    setMessage("");
   };
 
+  useEffect(() => {
+    fetchChat();
+  }, []);
   return (
-    <div className="chat-box">
-      <div className="chat-header"></div>
-      <div className="chat-messages">
+    <div>
+      <div className="chat-section">
         {chat.length > 0 &&
           chat.map((item, i) => {
-            if (item.isAdmin == 1) {
+            if (item.isAdmin == 0) {
               return (
                 <div style={{ marginTop: "18px" }}>
                   {" "}
@@ -77,18 +63,18 @@ const ChatBox = () => {
                 </div>
               );
             }
-            if (item.isAdmin == 0) {
+            if (item.isAdmin == 1) {
               return (
                 <div style={{ marginTop: "18px" }}>
                   {" "}
                   <span
                     style={{
-                      // backgroundColor: "#036ffc",
+                      backgroundColor: "#180759",
                       padding: "8px",
-                      marginLeft: "160px",
+                      marginLeft: "900px",
                       borderRadius: "10px",
                       fontSize: "15px",
-                      color: "#036ffc",
+                      color: "white",
                     }}
                   >
                     {" "}
@@ -101,13 +87,15 @@ const ChatBox = () => {
       </div>
 
       <input
-        type="text"
+        className="send-message"
+        placeholder="Search"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Enter message"
-        className="chat-input"
       />
-      <button onClick={send} className="chat-btn btn btn-primary">
+      <button
+        className="btn btn-primary send-btn"
+        onClick={(e) => sendMessage(e.target.value)}
+      >
         {" "}
         Send{" "}
       </button>
@@ -115,4 +103,4 @@ const ChatBox = () => {
   );
 };
 
-export default ChatBox;
+export default ChatSection;

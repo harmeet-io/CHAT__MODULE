@@ -1,0 +1,16 @@
+.send-message {
+  padding: 10px;
+  position: absolute;
+  top: 45rem;
+  width: 63%;
+  margin: 2px 0 4px 10px;
+}
+
+.send-btn {
+  position: absolute;
+  top: 45rem;
+  right: 80px;
+  margin: 0 1px 0 8px;
+  width: 6%;
+  height: 48px;
+}

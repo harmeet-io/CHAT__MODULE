@@ -9,6 +9,8 @@ app.use(cors());
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended : true}));
 
+app.use(express.json());
+
 
 const mongoose  = require("mongoose");
 mongoose.connect('mongodb://localhost:27017/chatDB', {useNewUrlParser : true});
