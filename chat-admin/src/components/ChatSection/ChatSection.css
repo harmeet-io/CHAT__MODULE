@@ -1,4 +1,4 @@
-.send-message {
+.send-message-input {
   padding: 10px;
   position: absolute;
   top: 45rem;
@@ -13,4 +13,17 @@
   margin: 0 1px 0 8px;
   width: 6%;
   height: 48px;
+}
+
+.chat-section {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 618px;
+  scroll-behavior: smooth;
+
+}
+
+.chat-section::-webkit-scrollbar{
+  display: none;
+
 }

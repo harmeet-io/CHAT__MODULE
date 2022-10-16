@@ -2,15 +2,13 @@ import React from "react";
 import {BsSearch} from 'react-icons/bs';
 import '../Header/Header.css';
 
-const Header = () => {
+const Header = ({setSearch}) => {
 
-    const search = () => {
-        alert("working");
-    }
+    
   return (
-    <div>
-      <input placeholder="Search" className="search"/>
-      <  BsSearch size={40} className='search-icon'  onClick={search} />
+    <div className="header">
+      <input placeholder="Search" className="search" onChange={(e) => setSearch(e.target.value)}/>
+      {/* <  BsSearch size={40} className='search-icon'  onClick={search} /> */}
     </div>
   );
 };

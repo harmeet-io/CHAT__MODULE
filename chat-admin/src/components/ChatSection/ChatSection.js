@@ -1,32 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../ChatSection/ChatSection.css";
 import axios from "axios";
+import { Socket } from "socket.io-client";
 
-const ChatSection = () => {
+const ChatSection = ({ chat, user_id }) => {
   const [message, setMessage] = useState("");
-  const [chat, setChat] = useState([]);
+  const [chats, setChats] = useState([]);
+  const chatRef = useRef();
 
-  const fetchChat = () => {
-    const url = `http://127.0.0.1:8000/api/get-user-chat/634b235999c6fb9cd2ebc41f`;
-    axios
-      .get(url)
-      .then((response) => {
-        setChat(response.data.Chat.messages);
-      })
-      .catch((error) => {
-        console.log(error, "Error line 16 ChatSection.js");
-      });
-  };
+  useEffect(() => {
+    setChats(chat);
+  }, [chat]);
+  //  const openChat = function(user_id){
+
+  // };
+  // const fetchChat = () => {
+  //   const url = `http://127.0.0.1:8000/api/get-user-chat/634bb074fd2e10ba46d8b2d4`;
+  //   axios
+  //     .get(url)
+  //     .then((response) => {
+  //       setChats(response.data.Chat.messages);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error, "Error line 16 ChatSection.js");
+  //     });
+  // };
 
   const sendMessage = () => {
-    const url = `http://127.0.0.1:8000/api/send-message/634b235999c6fb9cd2ebc41f`;
+    
+    const url = `http://127.0.0.1:8000/api/send-message/${user_id}`; 
     const data = {
       isAdmin: "1",
       content: message,
     };
-    axios
+    if(message){
+          axios
       .post(url, data)
       .then((response) => {
+        setChats((chats) => [...chats, data]);
+        if(chatRef.current){
+          chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
         console.log(response);
       })
       .catch((error) => {
@@ -34,15 +48,25 @@ const ChatSection = () => {
       });
     setMessage("");
   };
+    }
 
   useEffect(() => {
-    fetchChat();
+    // fetchChat();
+            socket.on("sentMessage", (message) => {
+              setIsTyping(false);
+              setMessages((messages) => [...messages, message]);
+              document.querySelector(".chat__messagesBox").scrollTop =
+                document.querySelector(".chat__messagesBox").scrollHeight -
+                document.querySelector(".chat__messagesBox").clientHeight;
+              setText("");
+            });
   }, []);
   return (
     <div>
-      <div className="chat-section">
-        {chat.length > 0 &&
-          chat.map((item, i) => {
+      <div className="chat-section" ref={chatRef}>
+
+        {chats.length > 0 &&
+          chats.map((item, i) => {
             if (item.isAdmin == 0) {
               return (
                 <div style={{ marginTop: "18px" }}>
@@ -51,7 +75,7 @@ const ChatSection = () => {
                     style={{
                       backgroundColor: "#036ffc",
                       padding: "8px",
-                      margin: "10px",
+                      margin: "15px",
                       borderRadius: "10px",
                       fontSize: "15px",
                       color: "white",
@@ -71,10 +95,13 @@ const ChatSection = () => {
                     style={{
                       backgroundColor: "#180759",
                       padding: "8px",
-                      marginLeft: "900px",
+                      marginLeft: "auto",
                       borderRadius: "10px",
                       fontSize: "15px",
                       color: "white",
+                      display : 'block',
+                      width : 'fit-content',
+                      wordBreak : 'break-all'
                     }}
                   >
                     {" "}
@@ -87,14 +114,16 @@ const ChatSection = () => {
       </div>
 
       <input
-        className="send-message"
+        className="send-message-input"
         placeholder="Search"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        onKeyPress={(e) => (e.key === "Enter" ? sendMessage() : null)}
       />
       <button
         className="btn btn-primary send-btn"
         onClick={(e) => sendMessage(e.target.value)}
+        disabled={!message}
       >
         {" "}
         Send{" "}

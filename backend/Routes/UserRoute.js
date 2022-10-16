@@ -13,6 +13,7 @@ const UserController = require('../Controllers/UserController');
 
 Router.route('/api/add-user').post(UserController.addUser);
 Router.route('/api/remove-user/:id').delete(UserController.removeUser);
+Router.route('/api/get-users').get(UserController.getUsers);
 
 
 module.exports = Router;

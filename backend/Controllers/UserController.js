@@ -25,16 +25,14 @@ const addUser = async (req, res) => {
       await id.save();
 
       const data = {
-          isAdmin: 1,
-          content: "Hi " + newUser.name + "! " + "How may I help you? ",
-        };
-
+        isAdmin: 1,
+        content: "Hi " + newUser.name + "! " + "How may I help you? ",
+      };
 
       const newChat = await Messages({
-        user_id : newUser._id,
-        messages : data
-        
-      })
+        user_id: newUser._id,
+        messages: data,
+      });
       console.log(newChat, "new CHat");
       newChat.save();
 
@@ -101,7 +99,36 @@ const removeUser = async (req, res) => {
   }
 };
 
+const getUsers = async (req, res) => {
+  try {
+
+    const users =await USER.find();
+    console.log(users, 'nie');
+
+    if(!users){
+      console.log('No user found');
+    }
+
+    return res.status(200).json({
+      Status : 'Success',
+      Message : 'Users fetched successfully',
+      Users : users
+    });
+
+
+  } catch (error) {
+    console.log(error, "error");
+
+    res.status(500).json({
+      Status: "Error",
+      Message: "Internal Server Error",
+      Error: "Error",
+    });
+  }
+};
+
 module.exports = {
   addUser,
   removeUser,
+  getUsers,
 };

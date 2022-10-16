@@ -1,5 +1,5 @@
 .chat-box {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     height: 96vh;
     width: 1600px;
     margin: 10px auto;
@@ -8,7 +8,7 @@
 }
 
 .chat-header {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     height: 80px;
     width: 1580px;
     margin: 2px auto;
@@ -16,7 +16,7 @@
 }
 
 .chat-messages {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     height: 680px;
     width: 1580px;
     margin: 2px auto;
@@ -39,19 +39,28 @@
 }
 
 .chat-section {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     height: 680px ;
-    width: 1220px;
+    width: 100%;
     /* background-color: black; */
     margin-left: 10px;
     /* background-color: green; */
+    padding-right: 10px;
 
 }
 
 .users {
-    border: 1px solid black;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* border: 1px solid black; */
     /* background-color: red; */
     height: 675px;
-    width: 350px;
+    width: 400px;
+    padding: 10px;
+    
 
+}
+
+.users::-webkit-scrollbar{
+    display: none;
 }
