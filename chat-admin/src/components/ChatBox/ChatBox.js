@@ -64,7 +64,7 @@ const ChatBox = () => {
           <SideBar openChat={openChat} search={search} />
         </div>
         <div className="chat-section ">
-          <ChatSection chat={chat} user_id = {user_id} />
+          <ChatSection chat={chat} user_id={user_id} setUserid={setUserid} />
         </div>
       </div>
     </div>

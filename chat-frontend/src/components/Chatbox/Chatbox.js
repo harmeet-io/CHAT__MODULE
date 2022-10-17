@@ -13,7 +13,6 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import socket from "../../socket";
 
-
 const ChatBox = () => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
@@ -23,8 +22,9 @@ const ChatBox = () => {
 
   useEffect(() => {
     socket.off();
-    socket.on("sendMessage", message => {
-      setChat(chat => [...chat, {isAdmin: "1", content: message.content}]);
+    socket.on("sendMessage", ({message}) => {
+      console.log(message)
+      setChat(chat => [...chat, {isAdmin: "1", content: message}]);
     })
   }, []);
 
@@ -42,6 +42,7 @@ const ChatBox = () => {
       console.log(response);
       handleClose();
       setUser(response.data.User);
+      socket.emit("joinedUser", {userId: response.data.User._id});
       fetchChat(response.data.User);
     })
     .catch((error) => {
@@ -108,7 +109,7 @@ const ChatBox = () => {
     // formData.append('isAdmin', '0' );
     // formData.append('content', message);
 
-    socket.emit("sendMessage", {user_id: user._id, content: message});
+    socket.emit("sendMessage", { userId: user._id, message });
 
     const data = {
       isAdmin: "0",

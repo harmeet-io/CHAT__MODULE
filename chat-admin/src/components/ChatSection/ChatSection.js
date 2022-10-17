@@ -3,17 +3,21 @@ import "../ChatSection/ChatSection.css";
 import axios from "axios";
 import socket from "../../socket";
 
-const ChatSection = ({ chat, user_id }) => {
+const ChatSection = ({ chat, user_id, setUserid }) => {
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState([]);
   const chatRef = useRef();
 
   useEffect(() => {
-    socket.off();
-    socket.on("sentMessage", message => {
-      if(user_id === message.user_id)
-        setChats(chats => [...chats, {isAdmin: "0", content: message.content}]);
-    })
+    socket.on("sentMessage", ({ userId, message }) => {
+      setUserid((user_id) => {
+        if (user_id === userId)
+          setChats((chats) => [...chats, { isAdmin: "0", content: message }]);
+        if (chatRef.current)
+          chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        return user_id;
+      });
+    });
   }, []);
 
   useEffect(() => {
@@ -35,32 +39,33 @@ const ChatSection = ({ chat, user_id }) => {
   // };
 
   const sendMessage = () => {
-    const url = `http://127.0.0.1:8000/api/send-message/${user_id}`; 
+    const url = `http://127.0.0.1:8000/api/send-message/${user_id}`;
+
+    socket.emit("sentMessage", { userId: user_id, message });
+
     const data = {
       isAdmin: "1",
       content: message,
     };
-    if(message){
-          axios
-      .post(url, data)
-      .then((response) => {
-        setChats((chats) => [...chats, data]);
-        if(chatRef.current){
-          chatRef.current.scrollTop = chatRef.current.scrollHeight;
-        }
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error, "line 19 ChatSection.js");
-      });
-    setMessage("");
-  };
+    if (message) {
+      axios
+        .post(url, data)
+        .then((response) => {
+          setChats((chats) => [...chats, data]);
+          if (chatRef.current)
+            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error, "line 19 ChatSection.js");
+        });
+      setMessage("");
     }
-    
+  };
+
   return (
     <div>
       <div className="chat-section" ref={chatRef}>
-
         {chats.length > 0 &&
           chats.map((item, i) => {
             if (item.isAdmin == 0) {
@@ -95,9 +100,9 @@ const ChatSection = ({ chat, user_id }) => {
                       borderRadius: "10px",
                       fontSize: "15px",
                       color: "white",
-                      display : 'block',
-                      width : 'fit-content',
-                      wordBreak : 'break-all'
+                      display: "block",
+                      width: "fit-content",
+                      wordBreak: "break-all",
                     }}
                   >
                     {" "}
