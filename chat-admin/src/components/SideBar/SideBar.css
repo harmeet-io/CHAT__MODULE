@@ -1,5 +1,8 @@
 .sidebar{
-    margin-top: 70px;
-    border: 2px solid black;
-    /* height: 500px; */
+    height: calc(100vh - 105px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.sidebar::-webkit-scrollbar{
+    display: none;
 }

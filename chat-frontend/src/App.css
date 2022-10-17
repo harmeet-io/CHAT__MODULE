@@ -1,0 +1,37 @@
+.chat-box {
+    border: 1px solid black;
+    height: 610px;
+    width: 410px;
+    /* margin: 100px auto 200px; */
+    margin: 180px 0px 0px 1210px;
+}
+
+.chat-header {
+    border: 1px solid black;
+    height: 80px;
+    width: 400px;
+    margin: 2px auto;
+
+}
+
+.chat-messages {
+    border: 1px solid black;
+    height: 460px;
+    width: 400px;
+    margin: 2px auto;
+    overflow: auto;
+}
+
+.chat-input {
+    height: 50px;
+    width: 280px;
+    margin: 5px 10px;
+    padding: 20px;
+}
+
+.chat-btn {
+    padding-bottom: 10px;
+    width: 90px;
+    border-radius: 10px;
+
+}

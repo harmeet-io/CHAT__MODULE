@@ -7,11 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
-<<<<<<< HEAD
 const cors = require("cors");
-=======
-const cors = require('cors');
->>>>>>> 06fe6311c4c1520b882e42cd9199a9ca4c94f210
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,14 +37,8 @@ io.on("connect", (socket) => {
   socket.on("joinedAdmin", () => {
     socket.join("admins");
   });
-<<<<<<< HEAD
   socket.on("sendMessage", ({ userId, message }) => {
     io.to("admins").emit("sentMessage", { userId, message });
-=======
-  socket.on("sendMessage", (message) => {
-    console.log(message , "messag iss here");
-    io.to("admins").emit("sentMessage", message)
->>>>>>> 06fe6311c4c1520b882e42cd9199a9ca4c94f210
   });
   socket.on("sentMessage", ({ userId, message }) => {
     io.to(users.find(user => user.userId === userId).socketId).emit("sendMessage", { message });

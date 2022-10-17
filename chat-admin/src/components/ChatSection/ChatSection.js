@@ -9,24 +9,16 @@ const ChatSection = ({ chat, user_id, setUserid }) => {
   const chatRef = useRef();
 
   useEffect(() => {
-<<<<<<< HEAD
     socket.on("sentMessage", ({ userId, message }) => {
       setUserid((user_id) => {
-        if (user_id === userId)
+        if (user_id === userId) {
           setChats((chats) => [...chats, { isAdmin: "0", content: message }]);
-        if (chatRef.current)
-          chatRef.current.scrollTop = chatRef.current.scrollHeight;
+          if (chatRef.current)
+            setTimeout(() => chatRef.current.scrollTop = chatRef.current.scrollHeight, 0);
+        }
         return user_id;
       });
     });
-=======
-    socket.off();
-    socket.on("sentMessage", message => {
-      console.log(message, 'Message is coming');
-      if(user_id === message.user_id)
-        setChats(chats => [...chats, {isAdmin: "0", content: message.content}]);
-    })
->>>>>>> 06fe6311c4c1520b882e42cd9199a9ca4c94f210
   }, []);
 
   useEffect(() => {
@@ -62,7 +54,7 @@ const ChatSection = ({ chat, user_id, setUserid }) => {
         .then((response) => {
           setChats((chats) => [...chats, data]);
           if (chatRef.current)
-            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+            setTimeout(() => chatRef.current.scrollTop = chatRef.current.scrollHeight, 0);
           console.log(response);
         })
         .catch((error) => {
@@ -73,8 +65,8 @@ const ChatSection = ({ chat, user_id, setUserid }) => {
   };
 
   return (
-    <div>
-      <div className="chat-section" ref={chatRef}>
+    <div className="cSection">
+      <div className="chatSection" ref={chatRef}>
         {chats.length > 0 &&
           chats.map((item, i) => {
             if (item.isAdmin == 0) {
@@ -122,22 +114,23 @@ const ChatSection = ({ chat, user_id, setUserid }) => {
             }
           })}
       </div>
-
-      <input
-        className="send-message-input"
-        placeholder="Search"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyPress={(e) => (e.key === "Enter" ? sendMessage() : null)}
-      />
-      <button
-        className="btn btn-primary send-btn"
-        onClick={(e) => sendMessage(e.target.value)}
-        disabled={!message}
-      >
-        {" "}
-        Send{" "}
-      </button>
+      {user_id ? <div className="cInput">
+        <input
+          className="send-message-input"
+          placeholder="Search"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyPress={(e) => (e.key === "Enter" ? sendMessage() : null)}
+        />
+        <button
+          className="btn btn-primary send-btn"
+          onClick={(e) => sendMessage(e.target.value)}
+          disabled={!message}
+        >
+          {" "}
+          Send{" "}
+        </button>
+      </div> : null}
     </div>
   );
 };
