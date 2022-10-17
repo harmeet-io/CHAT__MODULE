@@ -21,6 +21,13 @@ const ChatBox = () => {
   const [open2, setOpen2] = useState(false);
   const [user, setUser] = useState({});
 
+  useEffect(() => {
+    socket.off();
+    socket.on("sendMessage", message => {
+      setChat(chat => [...chat, {isAdmin: "1", content: message.content}]);
+    })
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -29,7 +36,7 @@ const ChatBox = () => {
     const email = formData.get('email');
     const phone = formData.get('phone number');
 
-    const url = `http://127.0.0.1:8000/api/add-user`;
+    const url = `http://localhost:8000/api/add-user`;
     axios.post(url, {name, email, phone})
     .then((response) => {
       console.log(response);

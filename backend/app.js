@@ -14,7 +14,9 @@ app.use(bodyParser.urlencoded({extended : true}));
 
 // DB Connection
 const mongoose  = require("mongoose");
-mongoose.connect('mongodb://localhost:27017/chatDB', {useNewUrlParser : true});
+mongoose.connect('mongodb://localhost:27017/chatDB', {useNewUrlParser : true})
+.then(res => console.log("DB Connected!"))
+.catch(err => console.log(err));
 
 const userRoute = require('./Routes/UserRoute');
 const messageRoute = require('./Routes/MessageRoute');
@@ -31,6 +33,9 @@ io.on("connect", (socket) => {
   });
   socket.on("sendMessage", (message) => {
     io.to("admins").emit("sentMessage", message)
+  });
+  socket.on("sentMessage", (message) => {
+    io.to(message.user_id).emit("sendMessage", message)
   });
   socket.on("disconnect", () => {
     socket.leave("admins");
