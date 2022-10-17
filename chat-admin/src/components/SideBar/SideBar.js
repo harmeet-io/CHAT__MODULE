@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import '../SideBar/SideBar.css';
 
 
 const SideBar = ( {openChat, search} ) => {
@@ -24,7 +25,7 @@ const SideBar = ( {openChat, search} ) => {
   }, []);
 
   return (
-    <div>
+    <div className="sidebar">
       {users.length > 0 &&
         users.filter((user)=>user.name.toLowerCase().includes(search.toLowerCase())).map((user, i) => {
           return (
@@ -33,12 +34,12 @@ const SideBar = ( {openChat, search} ) => {
                 padding: "10px",
                 backgroundColor: "#036ffc",
                 textAlign: "center",
-                height: "60px",
+                height: "80px",
                 marginBottom: "7px",
                 borderRadius: "10px",
                 color: "white",
                 fontSize: "18px",
-                cursor : 'pointer'
+                cursor : 'pointer',
               }}
               onClick={() => openChat(user._id)} 
             >

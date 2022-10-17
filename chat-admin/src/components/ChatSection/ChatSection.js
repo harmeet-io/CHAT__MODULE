@@ -11,6 +11,7 @@ const ChatSection = ({ chat, user_id }) => {
   useEffect(() => {
     socket.off();
     socket.on("sentMessage", message => {
+      console.log(message, 'Message is coming');
       if(user_id === message.user_id)
         setChats(chats => [...chats, {isAdmin: "0", content: message.content}]);
     })

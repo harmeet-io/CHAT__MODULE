@@ -63,7 +63,7 @@ const ChatBox = () => {
         <div className="users">
           <SideBar openChat={openChat} search={search} />
         </div>
-        <div className="chat-section ">
+        <div className="Chat-section ">
           <ChatSection chat={chat} user_id = {user_id} />
         </div>
       </div>

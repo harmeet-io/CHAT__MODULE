@@ -7,11 +7,18 @@
 
 .search {
     padding: 10px;
-    margin: 10px;
+    /* margin: 10px; */
     width: 20%;
-    margin-left: 40px;
+    margin-left: 10px;
+    margin-top: 10px;
 }
 
 .header {
-    /* border: 2px solid black; */
+    border: 2px solid black;
+    height: 100px;
+}
+
+.chat-header {
+    /* font-size: 40px; */
+
 }

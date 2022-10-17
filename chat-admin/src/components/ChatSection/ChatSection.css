@@ -2,17 +2,20 @@
   padding: 10px;
   position: absolute;
   top: 45rem;
-  width: 63%;
+  width: 58%;
   margin: 2px 0 4px 10px;
+  margin-top: 70px;
 }
 
 .send-btn {
   position: absolute;
   top: 45rem;
   right: 80px;
-  margin: 0 1px 0 8px;
+  /* margin: 0 1px 0 8px; */
+  margin-right: 100px;
   width: 6%;
   height: 48px;
+  margin-top: 70px;
 }
 
 .chat-section {
@@ -20,6 +23,8 @@
   overflow-x: hidden;
   height: 618px;
   scroll-behavior: smooth;
+  margin-top: 70px;
+  border: 2px solid red;
 
 }
 

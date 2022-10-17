@@ -7,8 +7,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
-// const cors = require('cors');
-// app.use(cors());
+const cors = require('cors');
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended : true}));
 
@@ -32,6 +32,7 @@ io.on("connect", (socket) => {
     socket.join("admins");
   });
   socket.on("sendMessage", (message) => {
+    console.log(message , "messag iss here");
     io.to("admins").emit("sentMessage", message)
   });
   socket.on("sentMessage", (message) => {
