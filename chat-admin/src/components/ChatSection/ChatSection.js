@@ -9,6 +9,7 @@ const ChatSection = ({ chat, user_id, setUserid }) => {
   const chatRef = useRef();
 
   useEffect(() => {
+<<<<<<< HEAD
     socket.on("sentMessage", ({ userId, message }) => {
       setUserid((user_id) => {
         if (user_id === userId)
@@ -18,6 +19,14 @@ const ChatSection = ({ chat, user_id, setUserid }) => {
         return user_id;
       });
     });
+=======
+    socket.off();
+    socket.on("sentMessage", message => {
+      console.log(message, 'Message is coming');
+      if(user_id === message.user_id)
+        setChats(chats => [...chats, {isAdmin: "0", content: message.content}]);
+    })
+>>>>>>> 06fe6311c4c1520b882e42cd9199a9ca4c94f210
   }, []);
 
   useEffect(() => {
