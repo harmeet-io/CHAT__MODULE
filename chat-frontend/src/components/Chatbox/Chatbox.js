@@ -19,7 +19,7 @@ const ChatBox = () => {
   const [chat, setChat] = useState([]);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,12 +29,9 @@ const ChatBox = () => {
     const email = formData.get('email');
     const phone = formData.get('phone number');
 
-
-
     const url = `http://127.0.0.1:8000/api/add-user`;
     axios.post(url, {name, email, phone})
     .then((response) => {
-      
       console.log(response);
       handleClose();
       setUser(response.data.User);
@@ -96,12 +93,15 @@ const ChatBox = () => {
   const send = async () => {
     // const id = Cookies.user_id;
     // const url = `http://localhost:8000/api/send-message/${id}`;
+
     const url = `http://localhost:8000/api/send-message/${user._id}`;
 
     // const formData = new FormData();
 
     // formData.append('isAdmin', '0' );
     // formData.append('content', message);
+
+    socket.emit("sendMessage", {user_id: user._id, content: message});
 
     const data = {
       isAdmin: "0",

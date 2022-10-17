@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../ChatSection/ChatSection.css";
 import axios from "axios";
-import { Socket } from "socket.io-client";
+import socket from "../../socket";
 
 const ChatSection = ({ chat, user_id }) => {
   const [message, setMessage] = useState("");
@@ -9,10 +9,18 @@ const ChatSection = ({ chat, user_id }) => {
   const chatRef = useRef();
 
   useEffect(() => {
+    socket.off();
+    socket.on("sentMessage", message => {
+      if(user_id === message.user_id)
+        setChats(chats => [...chats, {isAdmin: "0", content: message.content}]);
+    })
+  }, []);
+
+  useEffect(() => {
     setChats(chat);
   }, [chat]);
-  //  const openChat = function(user_id){
 
+  //  const openChat = function(user_id){
   // };
   // const fetchChat = () => {
   //   const url = `http://127.0.0.1:8000/api/get-user-chat/634bb074fd2e10ba46d8b2d4`;
@@ -27,7 +35,6 @@ const ChatSection = ({ chat, user_id }) => {
   // };
 
   const sendMessage = () => {
-    
     const url = `http://127.0.0.1:8000/api/send-message/${user_id}`; 
     const data = {
       isAdmin: "1",
@@ -49,18 +56,7 @@ const ChatSection = ({ chat, user_id }) => {
     setMessage("");
   };
     }
-
-  useEffect(() => {
-    // fetchChat();
-            socket.on("sentMessage", (message) => {
-              setIsTyping(false);
-              setMessages((messages) => [...messages, message]);
-              document.querySelector(".chat__messagesBox").scrollTop =
-                document.querySelector(".chat__messagesBox").scrollHeight -
-                document.querySelector(".chat__messagesBox").clientHeight;
-              setText("");
-            });
-  }, []);
+    
   return (
     <div>
       <div className="chat-section" ref={chatRef}>
